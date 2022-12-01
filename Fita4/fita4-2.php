@@ -54,10 +54,12 @@
         $queryCountry = $pdo->prepare("SELECT * FROM country where Continent in ('".$txtContinent."');");
         $queryCountry->execute();
         $rowCountry = $queryCountry->fetch();
+        echo "<ul>";
         while($rowCountry){
             echo "<li>".$rowCountry["Name"]."</li>";
             $rowCountry = $queryCountry->fetch();
         }
+        echo "</ul>";
     }
 
     unset($query2);
