@@ -5,28 +5,31 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Login amb seguretat</title>
     <style>
         h1 {
             text-align: center;
         }
-        label{
+
+        label {
             font-size: 18px;
         }
-        input{
+
+        input {
             border-radius: 5px;
             width: 40%;
             height: 30px;
             margin-top: 10px;
         }
-        .send{
+
+        .send {
             background-color: #33afff;
             width: 50%;
             height: 40px;
             margin-top: 20px;
         }
 
-        form{
+        form {
             text-align: center;
             border: 1px solid black;
             width: 50%;
@@ -40,7 +43,7 @@
 
 <body>
 
-    <h1>Register</h1>
+    <h1>Login amb seguretat</h1>
 
     <?php
 
@@ -63,10 +66,7 @@
         <input type="text" name="username"><br>
         <label for="password">Contrasenya:</label><br>
         <input type="password" name="contrasenya"><br>
-        <label for="password2">Confirmar contrasenya:</label><br>
-        <input type="password" name="contrasenya2"><br>
         <input class="send" type="submit" name="submit">
-        
     </form>
 
 
@@ -76,16 +76,16 @@
     <?php
 
     if (isset($_POST["submit"])) {
-        if($_POST["contrasenya"] != $_POST["contrasenya2"]){
-            echo "<p align='center'><strong>Contraseñas no coinciden</strong></p>";
-        }
-        //$password = hash('sha256', $_POST['contrasenya']);
-        try {
-            $query2 = $pdo->prepare("INSERT INTO users (username,password) VALUES ('" . $_POST["username"] . "', sha2('" . $_POST["contrasenya"] . "','256'));");
-            $query2->execute();
-            echo "<p align='center'><strong>Usuario insertado correctamente</strong></p>";
-        } catch (error $e) {
-            echo "<p align='center'><strong>Usuario no insertado</strong></p>";
+        $password = hash('sha256', $_POST['contrasenya']);
+        $query2 = $pdo->prepare("select count(*) as countUser from users where username = :username and password = :password;");
+        $query2->bindParam(':username', $_POST['username'],PDO::PARAM_STR);
+        $query2->bindParam(':password', $password,PDO::PARAM_STR);
+        $query2->execute();
+        $rowUsername = $query2->fetch();
+        if ($rowUsername['countUser'] > 0) {
+            echo "<p align='center'><strong>Login correcte</strong></p>";
+        } else {
+            echo "<p align='center'><strong>Login incorrecte</strong></p>";
         }
     }
 

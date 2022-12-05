@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Login</title>
     <style>
         h1 {
             text-align: center;
@@ -43,7 +43,7 @@
 
 <body>
 
-    <h1>Login</h1>
+    <h1>Login sense seguretat</h1>
 
     <?php
 
