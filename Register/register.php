@@ -10,23 +10,26 @@
         h1 {
             text-align: center;
         }
-        label{
+
+        label {
             font-size: 18px;
         }
-        input{
+
+        input {
             border-radius: 5px;
             width: 40%;
             height: 30px;
             margin-top: 10px;
         }
-        .send{
+
+        .send {
             background-color: #33afff;
             width: 50%;
             height: 40px;
             margin-top: 20px;
         }
 
-        form{
+        form {
             text-align: center;
             border: 1px solid black;
             width: 50%;
@@ -66,7 +69,7 @@
         <label for="password2">Confirmar contrasenya:</label><br>
         <input type="password" name="contrasenya2"><br>
         <input class="send" type="submit" name="submit">
-        
+
     </form>
 
 
@@ -76,12 +79,15 @@
     <?php
 
     if (isset($_POST["submit"])) {
-        if($_POST["contrasenya"] != $_POST["contrasenya2"]){
+        if ($_POST["contrasenya"] != $_POST["contrasenya2"]) {
             echo "<p align='center'><strong>Contraseñas no coinciden</strong></p>";
+            die();
         }
-        //$password = hash('sha256', $_POST['contrasenya']);
         try {
-            $query2 = $pdo->prepare("INSERT INTO users (username,password) VALUES ('" . $_POST["username"] . "', sha2('" . $_POST["contrasenya"] . "','256'));");
+            $password = hash('sha256', $_POST['contrasenya']);
+            $query2 = $pdo->prepare("INSERT INTO users (username,password) VALUES (?,?)");
+            $query2->bindParam(1, $_POST['username']);
+            $query2->bindParam(2, $password);
             $query2->execute();
             echo "<p align='center'><strong>Usuario insertado correctamente</strong></p>";
         } catch (error $e) {
