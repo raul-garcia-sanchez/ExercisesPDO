@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login amb seguretat</title>
+    <title>Login</title>
     <style>
         h1 {
             text-align: center;
@@ -43,7 +44,7 @@
 
 <body>
 
-    <h1>Login amb seguretat</h1>
+    <h1>Login</h1>
 
     <?php
 
@@ -60,7 +61,6 @@
 
     ?>
 
-
     <form action="" method="post">
         <label for="username">Nom d'usuari:</label><br>
         <input type="text" name="username"><br>
@@ -74,12 +74,14 @@
     if (isset($_POST["submit"])) {
         $password = hash('sha256', $_POST['contrasenya']);
         $query2 = $pdo->prepare("select count(*) as countUser from users where username = :username and password = :password;");
-        $query2->bindParam(':username', $_POST['username'],PDO::PARAM_STR);
-        $query2->bindParam(':password', $password,PDO::PARAM_STR);
+        $query2->bindParam(':username', $_POST['username'], PDO::PARAM_STR);
+        $query2->bindParam(':password', $password, PDO::PARAM_STR);
         $query2->execute();
         $rowUsername = $query2->fetch();
         if ($rowUsername['countUser'] > 0) {
             echo "<p align='center'><strong>Login correcte</strong></p>";
+            $_SESSION['user'] = $_POST['username'];
+            header("Location: main.php");
         } else {
             echo "<p align='center'><strong>Login incorrecte</strong></p>";
         }
