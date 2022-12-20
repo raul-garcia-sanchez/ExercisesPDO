@@ -81,12 +81,9 @@
             }
             ?>
     </table>
-
     
-
     <script>
 
-    
     $("#dialog").dialog({
     autoOpen: false,
     modal: true
