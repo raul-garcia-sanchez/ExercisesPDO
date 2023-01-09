@@ -17,18 +17,18 @@
         <input type="submit" name="submit" /><br>
     </form>
     <?php
-if (isset($_POST['submit'])) {
-    $file = $_FILES['fileInput']['name'];
-    if (isset($file) && $file != "") {
-        $temp = $_FILES['fileInput']['tmp_name'];
-        if (move_uploaded_file($temp, 'images/' . $file)) {
-            echo '<p><img src="images/' . $file . '"></p>';
-        } else {
-            echo '<div><b>Error al mostrar la imatge</b></div>';
+    if (isset($_POST['submit'])) {
+        $file = $_FILES['fileInput']['name'];
+        if (isset($file) && $file != "") {
+            $temp = $_FILES['fileInput']['tmp_name'];
+            if (move_uploaded_file($temp, 'images/' . $file)) {
+                echo '<p><img src="images/' . $file . '"></p>';
+            } else {
+                echo '<div><b>Error al mostrar la imatge</b></div>';
+            }
         }
     }
-}
-?>
+    ?>
 </body>
 
 </html>
